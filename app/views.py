@@ -5,38 +5,62 @@ from app.models import *
 def insert_topic(request):
     if request.method=='POST':
         tn=request.POST['tn']
-        To=Topic.objects.get_or_create(topic_name=tn)[0]
-        To.save()
-        return HttpResponse('Topic is inserted successfully')
-        
-        
+        TO=Topic.objects.get_or_create(topic_name=tn)[0]
+        TO.save()
+        return HttpResponse('Topic insertion is done Successfully')
     return render(request,'insert_topic.html')
 
 def insert_webpage(request):
     LTO=Topic.objects.all()
     d={'topics':LTO}
+
     if request.method=='POST':
-        tn=request.POST['tn']
-        name=request.POST.get('n')
+        topic=request.POST['topic']
+        name=request.POST.get('name')
         url=request.POST.get('url')
-        T=Topic.objects.get_or_create(topic_name=tn)[0]
-        T.save()
-        W=Webpage.objects.get_or_create(topic_name=T,name=name,url=url)[0]
-        W.save()
-        return HttpResponse('webpage is inserted successfully')
+        email=request.POST['email']
+        TO=Topic.objects.get(topic_name=topic)
+
+        WO=Webpage.objects.get_or_create(topic_name=TO,name=name,url=url,email=email)[0]
+        WO.save()
+        return HttpResponse('Webpage insertion is done Successfully')
+
     return render(request,'insert_webpage.html',d)
-    
+
 def insert_access(request):
-    LWO=Webpage.objects.all()
-    d={'webpage':LWO}
+    LTO=Webpage.objects.all()
+    d={'webpages':LTO}
+
     if request.method=='POST':
-        name=request.POST.get('n')
-        author=request.POST.get('a')
-        date=request.POST.get('date')
-        W=Webpage.objects.get_or_create(name=name)[0]
-        W.save()
-        A=Accessrecord.objects.get_or_create(name=W,author=author,date=date)[0]
-        A.save()
-        return HttpResponse('accessrecords is inserted successfully')
+        name=request.POST['name']
+        author=request.POST['author']
+        date=request.POST['date']
+        WO=Webpage.objects.get(name=name)
+        AO=Accessrecord.objects.get_or_create(name=WO,author=author,date=date)[0]
+        AO.save()
+        return HttpResponse('Webpage insertion is done Successfully')
+
     return render(request,'insert_access.html',d)
-    
+
+def retrieve_data(request):
+    LTO=Topic.objects.all()
+    d={'topics':LTO}
+    if request.method=='POST':
+        td=request.POST.getlist('topic')
+        print(td)
+        webqueryset=Webpage.objects.none()
+
+        for i in td:
+            webqueryset=webqueryset|Webpage.objects.filter(topic_name=i)
+        d1={'webpages':webqueryset}
+        return render(request,'display_webpage.html',d1)
+    return render(request,'delete_data.html',d)
+
+def checkbox(request):
+    LTO=Topic.objects.all()
+    d={'topics':LTO}
+    return render(request,'checkbox.html',d)
+
+
+
+

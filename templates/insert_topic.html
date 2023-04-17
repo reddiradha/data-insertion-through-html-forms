@@ -8,16 +8,16 @@
 </head>
 <body>
     <center>
-        <h1>Insret topic form</h1>
-        <form  method="POST">
+        <h1>Insert Topic form</h1>
+        <form method="POST">
             {% csrf_token %}
             <label for="tn">Topic_name</label>
-            <input type="text" name="tn" id="tn">
+            <input type="text" name="tn" id="tn"><br>
             <br>
-            <br>
-            <input type="submit" value="insert topic">
 
+            <input type="submit" value="insert_topic">
         </form>
+
     </center>
 </body>
 </html>

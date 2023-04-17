@@ -8,31 +8,25 @@
 </head>
 <body>
     <center>
-        <h1>Webpage Insertion Form</h1>
+        <h1>Select one topic</h1>
 
         <form method="POST">
             {% csrf_token %}
+
             <label for="topic">Topic_name</label>
-            <select name="topic" id="topic">
+            <select name="topic" id="topic" multiple>
+
                 {% for to in topics %}
                     <option value="{{to}}">{{to.topic_name}}</option>
                 {% endfor %}
             </select>
             <br><br>
-            <label for="name">Name</label>
-            <input type="text" name="name" id="name"><br>
-            <br>
-            <label for="url">Url</label>
-            <input type="url" name="url" id="url"><br>
-            <br>
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email"><br>
-            <br>
-            <input type="submit" value="Insert_Webpage">
+            <input type="submit" value="Retrive">
+
 
         </form>
 
-
     </center>
+    
 </body>
 </html>
